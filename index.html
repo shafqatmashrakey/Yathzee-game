@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<head><title> Yahtzee </title>
+
+<style type="text/css">
+
+div.bkc{background-color: #f5f5f5;
+width: 600px;
+margin: auto;
+}
+h1 {font-size: 32pt;
+    text-align: center;}
+div.a {text-align: center;
+       
+       }
+table.a{margin-left: auto;
+        margin-right: auto;
+        margin-top:100px;
+        width :100%;}
+td.a{text-align: right ;
+font-family: 'Times New Roman';
+font-size: 15px;}
+td.b{border-left:  1px ridge #676767 ;
+     border-top:  1px ridge #676767 ;
+    background-color:#aeaeff;
+    
+    width: 2em;}
+td.c{width: 60%;
+    text-align: center;
+
+}
+button.b{width: 50px;
+    height: 25px;
+    font-family: 'Times New Roman';
+     background-color: rgb(85, 53, 126);
+     text-align: center;
+     vertical-align: middle;
+     color:rgb(252,223,241) ;
+     }
+button.c{width: 90px;
+      height: 25px;
+      font-family: 'Times New Roman';
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(175, 191, 191);
+     color:rgb(10, 29, 99);}
+.pa{padding-top: 50px;}
+.paa{padding-bottom: 150px;}
+</style>
+</head>
+<body class="backp">
+<script language="Javascript">
+//<!--
+var v = new Array(0,0,0,0,0);
+var x =new Array(false,false,false,false,false);
+var Y = new Array(0,0,0,0,0,0,0);
+var t= new Array(false,false,false,false,false,false,false,false,false,false);
+
+var rcount=0;
+function roll(){
+  if(rcount<3){
+    rcount++;
+      for(var i=0;i<5;i++){
+        
+          if(!x[i]){
+          var d=document.getElementById('d'+i);
+          v[i]=Math.floor(6*Math.random()+1);
+          d.src="images/dice"+v[i]+".gif";}}}
+         
+  
+
+}
+function h(i){
+    var d= document.getElementById("d"+i);
+    x[i]=!x[i]
+    if(x[i]){
+        d.src="images/diceX"+v[i]+".gif";
+    }
+    else{d.src="images/dice"+v[i]+".gif";}
+}
+function sc(b){
+    var tt=0;
+    if(t[b]==false){
+    var k =document.getElementById('s'+b);
+    for(var i=0;i<5;i++){
+        if(v[i]==b){
+        tt+=1;
+        
+        }
+        k.innerHTML=tt*b;
+      }
+       
+    }}
+    function K(n) {
+  var total = 0;
+  for (var i = 1; i <= 6; i++) {
+    var count = 0;
+    for (var j = 0; j < 5; j++) {
+      if (v[j] == i) {
+        count++;
+      }
+    }
+    if (count >= n) {
+      total = v[0] + v[1] + v[2] + v[3] + v[4];
+      break;
+    }
+  }
+  if (n == 5 && count == 5) {
+    total = 50;
+  }
+  document.getElementById("s" + (n + 4)).innerHTML = total;
+}
+function T() {
+  var total = 0;
+  // Calculate upper score total
+  for (var i = 1; i <= 6; i++) {
+    var score = parseInt(document.getElementById("s" + i).innerHTML);
+    if (!isNaN(score)) {
+      total += score;
+    }
+  }
+  // Add bonus for upper score
+  if (total >= 63) {
+    total += 35;
+  }
+  // Calculate lower score total
+  for (var i = 7; i <= 9; i++) {
+    var score = parseInt(document.getElementById("s" + i).innerHTML);
+    if (!isNaN(score)) {
+      total += score;
+    }
+  }
+  // Set total score
+  document.getElementById("s10").innerHTML = total;
+}
+
+
+function clicked(n){
+  t[n]=true
+  rcount=0;
+}
+function resetValue(n){
+ if(t[n]==false){ 
+  document.getElementById("s"+n).innerHTML = null;
+}}
+function NewGame() {
+  for (var i = 0; i < 5; i++) {
+    v[i] = 0;
+    x[i] = false;
+  }
+  for (var i = 1; i <= 9; i++) {
+    document.getElementById("s" + i).innerHTML = null;
+    t[i] = false;
+  }
+  for(var i=0;i<5;i++){
+    var d=document.getElementById('d'+i)
+    d.src="images/dice"+v[0]+".gif";}
+    document.getElementById("s10").innerHTML = null;
+}
+
+
+    
+    
+    
+//-->
+</script>
+<h1>Yahtzee</h1>
+<div class="bkc">
+
+<div class="a pa">
+        <img ID="d0" onclick="h(0)" src="images/dice0.gif">
+        <img ID="d1" onclick="h(1)" src="images/dice0.gif">
+        <img ID="d2" onclick="h(2)" src="images/dice0.gif">
+        <img ID="d3" onclick="h(3)" src="images/dice0.gif">
+        <img ID="d4" onclick="h(4)" src="images/dice0.gif">
+</div>
+
+<table class="a paa" >
+<tr><td class="a">1's</td ><td class="b" ID="s1" onmouseover="sc(1)" onmouseout="resetValue(1)" onclick="clicked(1)"></td><td class="c" rowspan="5"><button class="b" onclick="roll()"> Roll</button></td></tr>
+<tr><td class="a">2's</td><td class="b" ID="s2" onmouseover="sc(2)" onmouseout="resetValue(2)" onclick="clicked(2)"></td></tr>
+<tr><td class="a">3's</td><td class="b" ID="s3" onmouseover="sc(3)" onmouseout="resetValue(3)" onclick="clicked(3)"></td></tr>
+<tr><td class="a">4's</td><td class="b" ID="s4" onmouseover="sc(4)" onmouseout="resetValue(4)" onclick="clicked(4)"></td></tr>
+<tr><td class="a">5's</td><td class="b" ID="s5" onmouseover="sc(5)" onmouseout="resetValue(5)" onclick="clicked(5)"></td></tr>
+<tr><td class="a">6's</td><td class="b" ID="s6" onmouseover="sc(6)" onmouseout="resetValue(6)" onclick="clicked(6)"></td><td class="c" rowspan="5"><button class="c" onclick="NewGame()">New game</button></td></tr>
+<tr><td class="a">3 of a kind</td><td class="b" ID="s7" onmouseover="K(3)" onmouseout="resetValue(7)" onclick="clicked(7)"></td></tr>
+<tr><td class="a">4 of a kind</td><td class="b" ID="s8" onmouseover="K(4)" onmouseout="resetValue(8)" onclick="clicked(8)"></td></tr>
+<tr><td class="a">Yahtzee</td><td class="b" ID="s9" onmouseover="K(5)" onmouseout="resetValue(9)" onclick="clicked(9)"></td></tr>
+<tr><td class="a">Total</td><td class="b" ID="s10" onclick="T()" onmouseout="resetValue(10)" ></td></tr>
+</table>
+</div>
+    
+</body>
+
